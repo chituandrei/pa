@@ -1,0 +1,74 @@
+Chitu Andrei Alexandru 321CC
+Timp de lucru tema : 5 zile (nu de lucrat continuu, mai mult de cautat anumite informatii)
+Dificultate: Medie-Grea (anumite probleme necesitau putin atentie in gasirea formulelor de recurenta spre exemplu 4)
+
+Feribot: 
+Problema feribot este o problema de cautare binara. Am incercat sa caut binar intre maxim / k, unde maxim este
+suma greutatilor tuturor masinilor iar k numarul de feriboturi si maxim. Pentru fiecare rezultat am verificat 
+daca incap toate masinile. Astfel am reusit sa rezolv problema intr-o complexitate de O(n logn) logn pentru 
+cautarea binara si n pentru verificarea solutiei. 
+Complexitate spatiala : O(N)
+Complexitate temporala : O(N * logN)
+
+Nostory:
+a) Pentru acest subpunct aveam un numar nelimitat de miscari, astfel puteam sa imi garantez ca in vectorii a,b maximele nu subpunct
+pe aceeasi pozitie i (a[i] e maxim si b[i] e maxim). Cand spun maxim, ma refer la cele mai mari n numere unde n e lungimea vectorilor.
+Am creeat un nou vector c, unde am inserat si elementele lui a si elementele lui b, l-am sortat crescator si am luat ulimele 
+n * 2 - n elemente si le-am adunat returnand raspunsul.
+Complexitate spatiala : O(2 * n)
+Complexitate temporala : O(n logn)
+
+b) Problema la maximizarea solutiei este urmatoarea : Se afla doua maxime pe aceeasi pozitie i in vectorul a si in acelasi Timp
+si in vectorul b? Daca da, atunci am nevoie de o miscare pentru a le muta de pe aceeasi pozitie i. Mi-am dat seama ca daca am n/2
+maxime pe aceesi pozitie, si n/2 miscari, voi avea intotdeauna loc sa mut unul dintre maxime astfel incat acesta sa nu se suprapuna
+cu altul. De aceea, nu este nevoie de simulare a unei miscari, ci doar sa o iau in calcul. 
+Am creeat din nou vectorul c, l-am sortat ca la subpunctul 1, apoi am creeat un vector de aparitii. Cum am spus la subpunctul a)
+pe pozitia i nu pot aparea doua maxime, asa ca am parcurs vectorul de la capat pana la n/2 pentru a parcurge maximele, iar in 
+acelasi timp am actualizat vectorul de aparitii. Daca am un element din c pe pozitiile n * 2 -> n inseamna ca acesta este 
+maxim. Deci apr[pozitia_elementului_in_vectorul_initial] = 1. Pentru a retine pozitia in vectorul initial si nu a o pierde dupa
+sortare am creeat un vector de pair care are (valoare_nr, pozitie_intiala). Astfel parcurgand in continuare verific daca
+apr[pozitia_elementului_curent_in_vectorul_initial] == 1, inseamna ca acesta este pe aceeasi pozitie cu alt maxim. Prin urmare 
+trebuie sa execut o miscare, deci moves --. Fac toate astea intr-un while(moves > 0 ) adica practic cat timp pot sa mut.
+Avand vectorul sortat maximizez mutarile pe elementele maximale dintre maxime(stiu ca suna ciudat). Verific la final
+daca nr care este un counter pentru cate elemente am luat  in considerare == a.size() care este n in cazul nostru adica 
+trebuie sa am n elemente alese, daca nu continui in vectorul c si iau alte maxime doar daca apr[poz acestora] nu este egala cu
+1. Daca este egala cu 1 inseamna ca ele sunt pe aceeasi pozitie i cu un maxim ales deci nu pot sa l aleg. Practic completez cu 
+elemente din vector, dar incerc sa iau maximele care nu se afla pe aceeasi pozitie cu un maxim deja ales. 
+La final returnez suma.
+Complexitate spatiala : 
+Complexitate temporala
+
+Sushi:
+a) Pentru a, avem o problema clasica knapsack in care cu ajutorul programarii dinamice construim o matrice
+dp. La fiecare pas vedem daca greutatea ("rucsacului") ne permite sa adaugam elementul respectiv daca da, luam maximul
+dintre elementul curent si suma totala cu cel proaspat adaugat. In plus am mai calculat vectorul de grades pt ca era dat sub forma
+de matrice deci grades reprezinta "ce castig cand adaug obiectul" iar p este costul pe care il pierd.
+b) Pentru b) am un if in plus practic la fiecare element j pe care incerc sa l adaug, verifica daca elementul are loc de doua ori
+in ghizodan si daca da, il adaug si calculez din nou solutia maximala pentru dp[i][j]
+c) Pentru c) am creeat o matrice tridimensionala, practic dimensiunea t) imi spune cate obiecte am adaugat deja in ghiozdan. Am
+pierdut ceva timp aici pentru ca nu mi dadeam seama cum pot face sa adaug 2 elemente, dar dupa mi-am dat seama ca trebuie sa aleg
+dimensiunea t-2. Adica nu aleg m[i][j-pretul] pentru ca am nevoie si de dimensiune, deci aleg m[i][j- cate_obiecte bag * pretul][cate_obiecte_am_in_rucsac
+-_cate_obiecte_bag_in_rucsac].
+
+Semnale:
+90% din problema semnale pot spune ca am rezolvat-o pe foaie. Relatia de recurenta pe care am gasit-o este urmatoarea: 
+m[i][j] = m[i-1][j] + m[i-1][j-1]. pentru subpunctul a, iar pentru subpunctul b se mai adauga m[i-1][j-2]. De ce?
+Practic daca analizezi toate Combinarile ca de fapt combinari sunt, pe care le poti lua in calcul o sa observi ca elementele
+cu un 0 in fata sunt fix elementele de la pasul anterior. Spre exemplu ai 0101 care este de fapt 101. Este o metoda pentru a de a calcula
+combinari de x+1 luate cate y. O problema de matematica foarte enervanta
+
+Badgpt:
+La fel ca la problema anterioaram badgpt e o problema in care daca analizezi u3,u4,u5 de mana, o sa observi ca obtii un sir 
+fibonacci cand il descompui. Adica daca ai nevoie sa stii cate combinatii u3 poti face raspunsul este fibonacci(3).
+Acum problema se pune cum calculezi fibonacci in O(log n), iar in laborator mi-am adus aminte ca am rezolvat ceva cu  o matrice
+asa ca am rezolvat problema folosind prorietate ca daca am o matrice 
+(1 1
+ 1 0) Aceasta matrice la puterea N iti da pe prima poziite fib(n+1). Asa ca am ridicat matricea la puterea N cu o complexitate
+ logaritmica. Spre exemplu daca aveam de ridicat la puterea a 9-a folosem urmatorul algoritm. 9/2 = 4 rest 1 atunci fac m ^4 * m ^4
+ * m. Dupa care merg recursiv si calculez m ^ 4 care este 4/2 rest 0 deci m^2 * m ^ 2, calculez recursiv m ^ 1 care o cunosc deci
+ construiesc solutia. asfel merg din 1,2,4,8 ... pana ajung la n deci am o complexitate de ologn. Am inmultit matricea de mana 
+ pentru ca erau doar 4 elemente deci nu cred ca avea sens sa complic lucrurile cu 3 foruri.
+ Solutia problemei rezulta din inmultirea rezultatelor. Daca am sirul u2n4 si vreau sa aflu raspunsul pentru fiecare posibilitate
+ a lui u2 am cate o posibilitate din n4 deci fib(2) * fib(4).
+ Am rezolvat problema din citire, am luat in calcul doar elementele u si n, deoarece celelalte erau neimportante si am facut
+ inmultirea in MODULO.
